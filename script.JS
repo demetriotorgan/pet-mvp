@@ -1,4 +1,4 @@
-import { botaoLigarCamera, video, canvas, capturar, enviar, galeria, cancelar } from "./js/dom.js";
+import { botaoCamera, video, canvas, capturar, enviar, galeria, cancelar } from "./js/dom.js";
 import { fotoBlob, streamAtual, setFotoBlob, setStreamAtual } from "./js/estado.js";
 import { abrirCamera, resetarCaptura,capturarFoto } from "./js/camera.js";
 import { postarFoto, listarFotos } from "./js/api.js";
@@ -7,7 +7,7 @@ import { adicionarFotoGaleria, carregarGaleria } from "./js/galeria.js";
 import { criarPayload } from "./js/payload.js";
 
 //--------AbrirCamera
-botaoLigarCamera.addEventListener("click", abrirCamera);
+botaoCamera.addEventListener("click", abrirCamera);
 
 //-----Fechar Camera
 cancelar.addEventListener("click", resetarCaptura);

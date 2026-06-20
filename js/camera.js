@@ -1,57 +1,65 @@
-import { video,canvas, cameraContainer } from "./dom.js";
-import {streamAtual, setStreamAtual, setFotoBlob} from './estado.js'
+import { video, canvas, cameraContainer } from "./dom.js";
+import { streamAtual, setStreamAtual, setFotoBlob } from './estado.js'
 
-//---Abrir Camera
-export async function abrirCamera(){     
+export async function abrirCamera() {
     try {
-         const stream = await navigator.mediaDevices.getUserMedia({
+        const stream = await navigator.mediaDevices.getUserMedia({
             video: true
         });
+
         setStreamAtual(stream);
+
         video.srcObject = stream;
 
+        // garante que o vídeo carregou metadata (CRÍTICO no mobile)
+        await new Promise(resolve => {
+            video.onloadedmetadata = () => resolve();
+        });
+
+        // inicia playback do vídeo
+        await video.play();
+
+        // só depois libera UI
         mostrarVideo();
 
     } catch (error) {
-         alert('Erro ao iniciar camera');
-        console.log("Erro ao acessar a câmera", error);
+        console.error("Erro câmera:", error);
+        alert(error.name + ": " + error.message);
     }
-};
-
+}
 //---Capturar Imagem
-export function capturarFoto(){
+export function capturarFoto() {
     const contexto = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
     contexto.drawImage(video, 0, 0);
     canvas.toBlob((blob) => {
+        if (!blob) {
+            console.error("Falha ao gerar blob");
+            return;
+        }
+
         setFotoBlob(blob);
-
         mostrarPreview();
-
-        console.log("Foto Capturada: ", blob);
     }, "image/jpeg", 0.9);
 }
 
 //-----Reset Cam
-export function resetarCaptura(){
+export function resetarCaptura() {
     //limpa o blob
     setFotoBlob(null);
 
     //limpa o canva
     const contexto = canvas.getContext("2d");
-    contexto.clearRect(0,0, canvas.width, canvas.height);
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
 
     canvas.width = 0;
-    canvas.height=0;
-
-      // esconde canvas e vídeo
-    esconderTudo();
+    canvas.height = 0;
 
     //fecha o stream atual
-    if(streamAtual){
-        streamAtual.getTracks().forEach(track =>{
+    if (streamAtual) {
+        streamAtual.getTracks().forEach(track => {
             track.stop();
         });
         setStreamAtual(null);
@@ -61,20 +69,13 @@ export function resetarCaptura(){
     cameraContainer.style.display = "none";
 };
 
-export function mostrarVideo() {
+function mostrarVideo() {
     cameraContainer.style.display = "block";
     video.style.display = "block";
     canvas.style.display = "none";
-};
-
+}
 export function mostrarPreview() {
-    cameraContainer.style.display = "block";
     video.style.display = "none";
     canvas.style.display = "block";
-};
+}
 
-export function esconderTudo() {
-    video.style.display = "none";
-    canvas.style.display = "none";
-    cameraContainer.style.display = "none";
-};
