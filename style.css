@@ -317,3 +317,17 @@ body {
     .hero p { font-size: 0.95rem; }
     .form-row { flex-direction: column; gap: 0; }
 }
+
+#video,
+#canvas {
+    width: 300px;
+}
+
+#canvas {
+    display: none;
+}
+
+.camera-container {
+    display: none;
+}
+

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetAlerta - Encontre seu Amigo</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header class="navbar">
@@ -22,15 +24,15 @@
     </section>
 
     <div class="container">
-        
+
         <section id="cadastro" class="card-form">
-            <h2>Cadastrar Animal Perdido / Encontrado / Adoção</h2>
+            <h2>Cadastrar Animal</h2>
             <form id="petForm">
                 <div class="form-group">
                     <label for="petName">Nome do Pet (se souber):</label>
                     <input type="text" id="petName" placeholder="Ex: Bob, Mel...">
                 </div>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="petType">Tipo de Animal:</label>
@@ -57,7 +59,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="petContact">Telefone de Contato (com DDD): telefone whatssapp:
+                    <label for="petContact">Telefone de Whatssapp:
                     </label>
                     <input type="tel" id="petContact" placeholder="Ex: 11999999999" required>
                 </div>
@@ -65,11 +67,10 @@
                 <div class="form-group">
                     <label>Escolha como adicionar a foto:</label>
                     <div class="botoes-foto-container">
-                        
+
                         <label for="petCameraFile" class="btn-camera-container">
                             <span class="icon-camera">📷</span>
-                            <span class="text-camera">Tirar foto agora</span>
-                            <input type="file" id="petCameraFile" accept="image/*" capture="environment">
+                            <span id="petCameraFile" class="text-camera">Tirar foto agora</span>
                         </label>
 
                         <label for="petGalleryFile" class="btn-camera-container">
@@ -77,24 +78,34 @@
                             <span class="text-camera">Escolher da galeria</span>
                             <input type="file" id="petGalleryFile" accept="image/*">
                         </label>
-                        
                     </div>
-                    
-                    <input type="hidden" id="activePhotoData">
-                    
-                    <div id="photoPreviewContainer" style="display:none; margin-top: 10px; text-align: center;">
-                        <p style="font-size: 0.85rem; font-weight: bold; color: var(--found);">✓ Foto carregada com sucesso!</p>
+
+                    <!-- Área da câmera -->
+                    <div id="cameraContainer" class="camera-container">
+
+                        <video id="video" autoplay playsinline width="300"></video>
+                        <canvas id="canvas"></canvas>
+
+                        <small>Botões de Teste</small>
+                        <button id="capturar">Capturar</button>
+                        <button id="enviar">Enviar</button>
+                        <button id="cancelar">Cancelar</button>
                     </div>
+
+                    <hr>
+                    <h2>Galeria</h2>
+                    <div id="galeria"></div>
                 </div>
 
-                <button type="submit" class="btn-submit">Publicar Alerta</button>
+                <button type="submit" class="btn-submit">Cadastrar Animal</button>
             </form>
         </section>
 
         <main id="mural" class="mural-grid">
-            </main>
+        </main>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>
